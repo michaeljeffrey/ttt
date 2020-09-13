@@ -3,7 +3,6 @@
 """
 next:
 accept valid inputs
-check for win
 clear screen ?
 AI for computer turn
 """
@@ -49,13 +48,9 @@ def check_cols(board_map):
     return win
 
 def check_diags(board_map):
-    win = False
-    slash_cols = [1, 5, 9]
-    backslash_cols = [3, 5, 7]
-    for diag in [slash_cols, backslash_cols]: 
-        print(board_map[0][diag[0]])    
-        # if board_map[0][diag[0]] == board_map[1][diag[1]] == board_map[2][diag[2]]:
-        #     win = True
+    win = False  
+    if (board_map[0][0] == board_map[1][1] == board_map[2][2]) or (board_map[0][2] == board_map[1][1] == board_map[2][0]):
+        win = True
     return win
 
 def choose_position(board_map, human_turn):
@@ -71,8 +66,7 @@ def choose_position(board_map, human_turn):
     return
 
 def determine_win(board_map):
-    # return True if any([check_rows(board_map),check_cols(board_map), check_diags(board_map)]) else False
-    return True if any([check_rows(board_map),check_cols(board_map)]) else False
+    return True if any([check_rows(board_map),check_cols(board_map), check_diags(board_map)]) else False
 
 
 def ttt():
