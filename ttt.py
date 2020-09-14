@@ -3,7 +3,6 @@
 """
 next:
 accept valid inputs
-check for win
 clear screen ?
 AI for computer turn
 """
@@ -30,6 +29,30 @@ def draw_board(board_map):
  7 | 8 | 9
 """
 
+def check_rows(board_map):
+    win = False
+    row = 0
+    while row < 3:
+        if board_map[row][0] == board_map[row][1] == board_map[row][2]:
+            win = True
+        row += 1
+    return win
+
+def check_cols(board_map):
+    win = False
+    col = 0
+    while col < 3:
+        if board_map[0][col] == board_map[1][col] == board_map[2][col]:
+            win = True
+        col +=1
+    return win
+
+def check_diags(board_map):
+    win = False  
+    if (board_map[0][0] == board_map[1][1] == board_map[2][2]) or (board_map[0][2] == board_map[1][1] == board_map[2][0]):
+        win = True
+    return win
+
 def choose_position(board_map, human_turn):
     '''choose a position on the board either by human input or AI'''
     if human_turn:
@@ -40,14 +63,11 @@ def choose_position(board_map, human_turn):
                 if int(position) == board_map[row][col]:
                     board_map[row][col] = 'X'
                     valid = True
-
-        # for row in board_map:
-        #     print(row)
-        #     for col in row:
-        #         print(col)
-        #         print(row.index(col))
-        #         # print(col, row.index(col))
     return
+
+def determine_win(board_map):
+    return True if any([check_rows(board_map),check_cols(board_map), check_diags(board_map)]) else False
+
 
 def ttt():
     ''' main '''
@@ -58,6 +78,9 @@ def ttt():
         human_turn = True
         choose_position(board_map, human_turn)
         draw_board(board_map)
+        if determine_win(board_map) == True:
+            game_over = True
+            print(f"win!")
     return
 
 if __name__ == "__main__":
