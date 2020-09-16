@@ -102,20 +102,47 @@ def eligible_moves(board):
 
 def minimax(board_node, depth, ai):
     print(board_node, depth, ai)
-    parent = deepcopy(board_node)
-    value = 0
-    if depth == 0 or determine_win(parent):
-        return value
+    node = deepcopy(board_node)
+
+
+    # if not eligible_moves(board_node):
+    #     value = 0
+    #     print(f"draw {board_node}")
+
+    if determine_win(node):
+        if ai:
+            print(f"ai win!")
+            value = 100
+        else:
+            value = -100
+            print(f"human win!")
+    
+
     if ai:
-        value = 100000
-        for c in eligible_moves(parent):
+        value = -100
+        best_move = 0
+        for c in eligible_moves(node):
             (row, col) = convert_num_to_board(c)
-            value = max(value, minimax(set_position(parent, row, col, False), depth-1, False))
-        return value
+            set_position(node, row, col, False)
+            v = max(value, minimax(node, depth-1, False))
+            print(f"value ai {value}")
+            if v > value:
+                value = v 
+                best_move = c
+        return best_move
+    
     else:
-        for c in eligible_moves(parent):
-            value = max(value, minimax(set_position(parent, row, col, True), depth-1, True))
-        return value
+        value = 100
+        best_move = 0
+        for c in eligible_moves(node):
+            (row, col) = convert_num_to_board(c)
+            set_position(node, row, col, True)
+            value = min(value, minimax(node, depth-1, True))
+            print(f"value human {value}")
+            if v < value:
+                value = v 
+                best_move = c
+        return best_move
 
 def determine_win(board_map):
     return True if any([check_rows(board_map),check_cols(board_map), check_diags(board_map)]) else False
@@ -134,6 +161,7 @@ def ttt():
             game_over = True
             print(f"win!")
         human_turn^=True # toggle
+        print(f"Turn: {human_turn}")
     return
 
 if __name__ == "__main__":
