@@ -78,7 +78,7 @@ def choose_position(board_map, human_turn):
                     #             board_map[row][col] = 'X'
                     #             valid = True
                     (row, col) = convert_num_to_board(position)
-                    set_position(board_map, row, col, human_turn)
+                    set_position(board_map, row, col, True)
                     valid = True
                 else:
                     print(f"That position is taken!")
@@ -87,7 +87,7 @@ def choose_position(board_map, human_turn):
     else:
         (position, value) = minimax(board_map, True) # don't need value
         (row, col) = convert_num_to_board(position)
-        set_position(board_map, row, col, human_turn)
+        set_position(board_map, row, col, False)
     return
 
 def set_position(board_map, row, col, human_turn):
@@ -103,8 +103,8 @@ def eligible_moves(board):
 
 
 def minimax(board_node, ai):
-    print(f"mm: {board_node}")
-    print(f"{eligible_moves(board_node)}")
+    # print(f"mm: {board_node}")
+    # print(f"{eligible_moves(board_node)}")
 
     if ai:
         best_move = 0
@@ -113,15 +113,15 @@ def minimax(board_node, ai):
         best_move = 0
         best_score = 100
 
+    if not eligible_moves(board_node):
+        print(f"draw!")
+        return (None, 0)
+
     if determine_win(board_node):
         if ai:
             return (None, 100)
         else:
             return (None, -100)
-
-    if not eligible_moves(board_node):
-        print(f"draw!")
-        return (None, 0)
 
     for move in eligible_moves(board_node):
         node = deepcopy(board_node)
@@ -136,6 +136,7 @@ def minimax(board_node, ai):
             if node_score > best_score:
                 best_move = move
                 best_score = node_score
+                
         else:
             # node = deepcopy(board_node)
             (row, col) = convert_num_to_board(move)
@@ -145,8 +146,9 @@ def minimax(board_node, ai):
             if node_score < best_score:
                 best_move = move
                 best_score = node_score
+                # print(f"human best score: {best_score}")
     
-    print(f"bm, bs: {best_move} {best_score}")
+    # print(f"bm, bs: {best_move} {best_score}")
     return (best_move, best_score)
 
 
