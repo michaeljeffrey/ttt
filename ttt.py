@@ -22,6 +22,7 @@ def draw_board(board_map):
     return
 
 def check_rows(board_map):
+    '''three in a row on rows'''
     win = False
     row = 0
     while row < 3:
@@ -31,6 +32,7 @@ def check_rows(board_map):
     return win
 
 def check_cols(board_map):
+    '''three in a row on columns'''
     win = False
     col = 0
     while col < 3:
@@ -40,12 +42,14 @@ def check_cols(board_map):
     return win
 
 def check_diags(board_map):
+    '''three in a row on the diags'''
     win = False  
     if (board_map[0][0] == board_map[1][1] == board_map[2][2]) or (board_map[0][2] == board_map[1][1] == board_map[2][0]):
         win = True
     return win
 
 def convert_num_to_board(num):
+    '''convert from flat numbers to matrix'''
     row = (num-1)//3
     col = (num-1)%3
     return (row, col)
@@ -60,6 +64,7 @@ def convert_num_to_board(num):
 """
 
 def convert_board_to_num(row, col):
+    '''convert from matrix to flat numbers'''
     return ((row*3)+(col+1))
 
 def choose_position(board_map, human_turn):
@@ -92,6 +97,7 @@ def choose_position(board_map, human_turn):
     return
 
 def set_position(board_map, row, col, human_turn):
+    '''set the move on the TTT board'''
     if human_turn:
         board_map[row][col] = 'X'
     else:
@@ -104,6 +110,7 @@ def eligible_moves(board):
 
 
 def minimax(board_node, ai):
+    '''minimax algorithm -- figure out the best move or worst-case''' 
     if determine_win(board_node):
         if ai:
             return (0, -100)
@@ -141,6 +148,7 @@ def minimax(board_node, ai):
 
 
 def determine_win(board_map):
+    '''determine three in a row?'''
     return True if any([check_rows(board_map),check_cols(board_map), check_diags(board_map)]) else False
 
 
