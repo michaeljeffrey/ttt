@@ -3,8 +3,8 @@ from copy import deepcopy
 
 """
 next:
+refactor determine win
 clear screen
-AI for computer turn
 """
 
 def draw_board(board_map):
@@ -86,6 +86,7 @@ def choose_position(board_map, human_turn):
                 print(f"That was not an integer!")
     else:
         (position, value) = minimax(board_map, True) # don't need value
+        print(f"best position and value: {position} {value}")
         (row, col) = convert_num_to_board(position)
         set_position(board_map, row, col, False)
     return
@@ -103,52 +104,39 @@ def eligible_moves(board):
 
 
 def minimax(board_node, ai):
-    # print(f"mm: {board_node}")
-    # print(f"{eligible_moves(board_node)}")
+    if determine_win(board_node):
+        if ai:
+            return (0, -100)
+        else:
+            return (0, 100)
+
+    if not eligible_moves(board_node):
+        return (0, 0)
 
     if ai:
         best_move = 0
         best_score = -100
-    else:
-        best_move = 0
-        best_score = 100
-
-    if not eligible_moves(board_node):
-        print(f"draw!")
-        return (None, 0)
-
-    if determine_win(board_node):
-        if ai:
-            return (None, 100)
-        else:
-            return (None, -100)
-
-    for move in eligible_moves(board_node):
-        node = deepcopy(board_node)
-        if ai:
-            # node = deepcopy(board_node)
+        for move in eligible_moves(board_node):
+            node = deepcopy(board_node)
             (row, col) = convert_num_to_board(move)
             set_position(node, row, col, False)
             (node_move, node_score) = minimax(node, False)
-
-            # print(f"bm, bs: {best_move} {best_score}")
-
             if node_score > best_score:
                 best_move = move
                 best_score = node_score
-                
-        else:
-            # node = deepcopy(board_node)
+
+    else:
+        best_move = 0
+        best_score = 100
+        for move in eligible_moves(board_node):
+            node = deepcopy(board_node)
             (row, col) = convert_num_to_board(move)
             set_position(node, row, col, True)
             (node_move, node_score) = minimax(node, True)
-
             if node_score < best_score:
                 best_move = move
                 best_score = node_score
-                # print(f"human best score: {best_score}")
-    
-    # print(f"bm, bs: {best_move} {best_score}")
+
     return (best_move, best_score)
 
 
@@ -159,15 +147,11 @@ def determine_win(board_map):
 def ttt():
     ''' main '''
     board_map =  [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    game_over = False
     human_turn = True
     draw_board(board_map)
-    while not game_over:
+    while eligible_moves(board_map) and not determine_win(board_map):
         choose_position(board_map, human_turn)
         draw_board(board_map)
-        if determine_win(board_map) == True:
-            game_over = True
-            print(f"win!")
         human_turn^=True # toggle
         print(f"Turn: {human_turn}")
     return
