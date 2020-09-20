@@ -1,16 +1,11 @@
-#!/usr/bin/env python3
 from copy import deepcopy
-
-"""
-next:
-refactor determine win
-clear screen
-"""
+from os import system, name 
 
 def draw_board(board_map):
     '''draw the TTT board'''
     counter = 0
     row = 0
+    
     while counter < 5:
         if counter % 2 == 0:
             print(f" {board_map[row][0]} | {board_map[row][1]} | {board_map[row][2]}")
@@ -19,26 +14,31 @@ def draw_board(board_map):
         else:
             print(f"- - - - -")
             counter += 1
+    
     return
 
 def check_rows(board_map):
     '''three in a row on rows'''
     win = False
     row = 0
+    
     while row < 3:
         if board_map[row][0] == board_map[row][1] == board_map[row][2]:
             win = True
         row += 1
+    
     return win
 
 def check_cols(board_map):
     '''three in a row on columns'''
     win = False
     col = 0
+    
     while col < 3:
         if board_map[0][col] == board_map[1][col] == board_map[2][col]:
             win = True
         col +=1
+    
     return win
 
 def check_diags(board_map):
@@ -76,12 +76,6 @@ def choose_position(board_map, human_turn):
             try:
                 position = int(position_raw)
                 if position in eligible_moves(board_map):
-                    print("eligible!")
-                    # for row in range(3):
-                    #     for col in range(3):
-                    #         if int(position) == board_map[row][col]:
-                    #             board_map[row][col] = 'X'
-                    #             valid = True
                     (row, col) = convert_num_to_board(position)
                     set_position(board_map, row, col, True)
                     valid = True
@@ -89,11 +83,12 @@ def choose_position(board_map, human_turn):
                     print(f"That position is taken!")
             except:
                 print(f"That was not an integer!")
+    
     else:
         (position, value) = minimax(board_map, True) # don't need value
-        print(f"best position and value: {position} {value}")
         (row, col) = convert_num_to_board(position)
         set_position(board_map, row, col, False)
+    
     return
 
 def set_position(board_map, row, col, human_turn):
@@ -123,11 +118,13 @@ def minimax(board_node, ai):
     if ai:
         best_move = 0
         best_score = -100
+        
         for move in eligible_moves(board_node):
             node = deepcopy(board_node)
             (row, col) = convert_num_to_board(move)
             set_position(node, row, col, False)
             (node_move, node_score) = minimax(node, False)
+            
             if node_score > best_score:
                 best_move = move
                 best_score = node_score
@@ -135,11 +132,13 @@ def minimax(board_node, ai):
     else:
         best_move = 0
         best_score = 100
+        
         for move in eligible_moves(board_node):
             node = deepcopy(board_node)
             (row, col) = convert_num_to_board(move)
             set_position(node, row, col, True)
             (node_move, node_score) = minimax(node, True)
+            
             if node_score < best_score:
                 best_move = move
                 best_score = node_score
@@ -157,11 +156,13 @@ def ttt():
     board_map =  [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     human_turn = True
     draw_board(board_map)
+    
     while eligible_moves(board_map) and not determine_win(board_map):
         choose_position(board_map, human_turn)
+        system('clear' if name =='posix' else 'cls') 
         draw_board(board_map)
         human_turn^=True # toggle
-        print(f"Turn: {human_turn}")
+    
     return
 
 if __name__ == "__main__":
