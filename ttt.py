@@ -172,7 +172,10 @@ def ttt():
 
     if not eligible_moves(board_map) and not determine_win(board_map):
         print(f"Tie!\n")
+<<<<<<< HEAD
 
+=======
+>>>>>>> 66fb38dcb96ec1cb54c93b2348c15b31d084a302
     
     return
 
