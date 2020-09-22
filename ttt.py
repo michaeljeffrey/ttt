@@ -172,7 +172,6 @@ def ttt():
 
     if not eligible_moves(board_map) and not determine_win(board_map):
         print(f"Tie!\n")
-
     
     return
 
