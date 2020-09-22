@@ -155,13 +155,23 @@ def ttt():
     ''' main '''
     board_map =  [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     human_turn = True
+    system('clear' if name =='posix' else 'cls') 
     draw_board(board_map)
+    print(f"\nYou go first... you'll be 'X':\n")
     
     while eligible_moves(board_map) and not determine_win(board_map):
         choose_position(board_map, human_turn)
         system('clear' if name =='posix' else 'cls') 
         draw_board(board_map)
+        if determine_win(board_map):
+            if human_turn:
+                print(f"\nYou win!\n")
+            else:
+                print("\nComputer wins!\n")
         human_turn^=True # toggle
+
+    if not eligible_moves(board_map) and not determine_win(board_map):
+        print(f"Tie!\n")
     
     return
 
