@@ -1,6 +1,7 @@
 from copy import deepcopy
 from os import system, name 
 
+
 def draw_board(board_map):
     '''draw the TTT board'''
     counter = 0
@@ -17,6 +18,7 @@ def draw_board(board_map):
     
     return
 
+
 def check_rows(board_map):
     '''three in a row on rows'''
     win = False
@@ -28,6 +30,7 @@ def check_rows(board_map):
         row += 1
     
     return win
+
 
 def check_cols(board_map):
     '''three in a row on columns'''
@@ -41,6 +44,7 @@ def check_cols(board_map):
     
     return win
 
+
 def check_diags(board_map):
     '''three in a row on the diags'''
     win = False  
@@ -48,31 +52,25 @@ def check_diags(board_map):
         win = True
     return win
 
+
 def convert_num_to_board(num):
     '''convert from flat numbers to matrix'''
     row = (num-1)//3
     col = (num-1)%3
     return (row, col)
 
-"""
-[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
- 1 | 2 | 3 
- - - - - -
- 4 | 5 | 6
- - - - - -
- 7 | 8 | 9
-"""
 
 def convert_board_to_num(row, col):
     '''convert from matrix to flat numbers'''
     return ((row*3)+(col+1))
+
 
 def choose_position(board_map, human_turn):
     '''choose a position on the board either by human input or AI'''
     if human_turn:
         valid = False
         while not valid:
-            position_raw = input("Enter position number: ")
+            position_raw = input("\nEnter position number: ")
             try:
                 position = int(position_raw)
                 if position in eligible_moves(board_map):
@@ -91,6 +89,7 @@ def choose_position(board_map, human_turn):
     
     return
 
+
 def set_position(board_map, row, col, human_turn):
     '''set the move on the TTT board'''
     if human_turn:
@@ -98,6 +97,7 @@ def set_position(board_map, row, col, human_turn):
     else:
         board_map[row][col] = 'O'
     return
+
 
 def eligible_moves(board):
     '''provides flattened list of eligible moves'''
@@ -171,9 +171,10 @@ def ttt():
         human_turn^=True # toggle
 
     if not eligible_moves(board_map) and not determine_win(board_map):
-        print(f"Tie!\n")
+        print(f"\nTie!\n")
     
     return
+
 
 if __name__ == "__main__":
     ttt()
