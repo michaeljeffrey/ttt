@@ -21,6 +21,7 @@ class TestCheckRows(unittest.TestCase):
         board = [[1, 2, 'X'], [4, 5, 'X'], [7, 8, 'X']]
         self.assertFalse(check_rows(board))
 
+
 class TestCheckCols(unittest.TestCase):
     '''x'''
 
@@ -47,6 +48,7 @@ class TestCheckDiags(unittest.TestCase):
         self.assertTrue(check_diags(board))
         board = [['X', 'X', 'X'], [4, 5, 'X'], [7, 8, 'X']]
         self.assertFalse(check_diags(board))
+
 
 class TestConvertNumToBoard(unittest.TestCase):
     '''x'''
