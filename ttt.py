@@ -13,7 +13,7 @@ def draw_board(board_map):
             counter += 1
             row += 1
         else:
-            print(f'{"- - - - -"}')
+            print("- - - - -")
             counter += 1
 
     return
@@ -78,13 +78,12 @@ def choose_position(board_map, human_turn):
                     set_position(board_map, row, col, True)
                     valid = True
                 else:
-                    print(f'{"That position is taken!"}')
+                    print("That position is taken!")
             except Exception:
-                print(f'{"That was not an integer!"}')
+                print("That was not an integer!")
 
     else:
         (position, value) = minimax(board_map, True, 10)  # don't need value
-        print(position, value)
         (row, col) = convert_num_to_board(position)
         set_position(board_map, row, col, False)
 
@@ -155,10 +154,10 @@ def determine_win(board_map):
 def ttt():
     ''' main '''
     board_map = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    human_turn = False
+    human_turn = True
     system('clear' if name == 'posix' else 'cls')
     draw_board(board_map)
-    print(f"\nYou go first... you'll be 'X':\n")
+    print("\nYou go first... you'll be 'X':\n")
 
     while eligible_moves(board_map) and not determine_win(board_map):
         choose_position(board_map, human_turn)
@@ -166,13 +165,13 @@ def ttt():
         draw_board(board_map)
         if determine_win(board_map):
             if human_turn:
-                print(f"\nYou win!\n")
+                print("\nYou win!\n")
             else:
                 print("\nComputer wins!\n")
         human_turn ^= True  # toggle
 
     if not eligible_moves(board_map) and not determine_win(board_map):
-        print(f"\nTie!\n")
+        print("\nTie!\n")
 
     return
 

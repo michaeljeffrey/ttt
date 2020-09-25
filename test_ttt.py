@@ -4,15 +4,15 @@ from ttt import check_cols
 from ttt import check_diags
 from ttt import convert_num_to_board
 from ttt import convert_board_to_num
+from ttt import minimax
 # from ttt import check_rows
 # from ttt import check_rows
 
 
 class TestCheckRows(unittest.TestCase):
-    '''x'''
+    '''def check_rows'''
 
     def test_check_rows(self):
-        '''x'''
 
         board = [['X', 'X', 'X'], [4, 5, 6], [7, 8, 9]]
         self.assertTrue(check_rows(board))
@@ -23,10 +23,9 @@ class TestCheckRows(unittest.TestCase):
 
 
 class TestCheckCols(unittest.TestCase):
-    '''x'''
+    '''def check_cols'''
 
     def test_check_cols(self):
-        '''x'''
 
         board = [['X', 'X', 'X'], [4, 5, 6], [7, 8, 9]]
         self.assertFalse(check_cols(board))
@@ -37,10 +36,9 @@ class TestCheckCols(unittest.TestCase):
 
 
 class TestCheckDiags(unittest.TestCase):
-    '''x'''
+    '''def check_diags'''
 
     def test_check_diags(self):
-        '''x'''
 
         board = [['X', 'O', 'X'], ['O', 'X', 6], ['O', 8, 'X']]
         self.assertTrue(check_diags(board))
@@ -51,10 +49,9 @@ class TestCheckDiags(unittest.TestCase):
 
 
 class TestConvertNumToBoard(unittest.TestCase):
-    '''x'''
+    '''def convert_num_to_board'''
 
     def test_convert_num_to_board(self):
-        '''x'''
 
         self.assertTupleEqual(convert_num_to_board(5), (1, 1))
         self.assertTupleEqual(convert_num_to_board(1), (0, 0))
@@ -62,14 +59,25 @@ class TestConvertNumToBoard(unittest.TestCase):
 
 
 class TestConvertBoardToNum(unittest.TestCase):
-    '''x'''
+    '''def minimax'''
 
     def test_convert_board_to_num(self):
-        '''x'''
 
         self.assertEqual(convert_board_to_num(0, 0), 1)
         self.assertEqual(convert_board_to_num(1, 2), 6)
         self.assertEqual(convert_board_to_num(2, 1), 8)
+
+
+class TestMinimax(unittest.TestCase):
+    '''def minimax'''
+
+    def test_minimax(self):
+
+        board = [['O', 2, 'X'], [4, 'X', 6], [7, 8, 9]]
+        self.assertTupleEqual(minimax(board, True, 10), (7, 3))
+        board = [['X', 2, 'X'], ['O', 'O', 6], ['X', 8, 9]]
+        print(type(minimax(board, True, 10)))
+        self.assertTupleEqual(minimax(board, True, 10), (6, 110))
 
 
 if __name__ == '__main__':
