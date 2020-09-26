@@ -5,8 +5,7 @@ from ttt import check_diags
 from ttt import convert_num_to_board
 from ttt import convert_board_to_num
 from ttt import minimax
-# from ttt import check_rows
-# from ttt import check_rows
+from ttt import eligible_moves
 
 
 class TestCheckRows(unittest.TestCase):
@@ -56,6 +55,19 @@ class TestConvertNumToBoard(unittest.TestCase):
         self.assertTupleEqual(convert_num_to_board(5), (1, 1))
         self.assertTupleEqual(convert_num_to_board(1), (0, 0))
         self.assertTupleEqual(convert_num_to_board(9), (2, 2))
+
+
+class TestEligibleMoves(unittest.TestCase):
+    '''def eligible_moves'''
+
+    def test_eligible_moves(self):
+
+        board = [['X', 'X', 'X'], [4, 5, 6], [7, 8, 9]]
+        self.assertListEqual(eligible_moves(board), [4, 5, 6, 7, 8, 9])
+        board = [[1, 2, 'O'], [4, 5, 'O'], ['X', 'X', 'O']]
+        self.assertListEqual(eligible_moves(board), [1, 2, 4, 5])
+        board = [['X', 'O', 'O'], ['X', 'O', 'X'], ['X', 'O', 'O']]
+        self.assertListEqual(eligible_moves(board), [])
 
 
 class TestConvertBoardToNum(unittest.TestCase):
