@@ -6,6 +6,18 @@ from ttt import convert_num_to_board
 from ttt import convert_board_to_num
 from ttt import minimax
 from ttt import eligible_moves
+from ttt import draw_board
+from unittest.mock import patch
+import io
+
+
+class TestDrawBoard(unittest.TestCase):
+
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_draw_board(self, mock_stdout):
+        board = [['X', 'X', 'X'], [4, 5, 6], [7, 8, 9]]
+        draw_board(board)
+        assert mock_stdout.getvalue() == " X | X | X\n- - - - -\n 4 | 5 | 6\n- - - - -\n 7 | 8 | 9\n"
 
 
 class TestCheckRows(unittest.TestCase):
@@ -88,7 +100,6 @@ class TestMinimax(unittest.TestCase):
         board = [['O', 2, 'X'], [4, 'X', 6], [7, 8, 9]]
         self.assertTupleEqual(minimax(board, True, 10), (7, 3))
         board = [['X', 2, 'X'], ['O', 'O', 6], ['X', 8, 9]]
-        print(type(minimax(board, True, 10)))
         self.assertTupleEqual(minimax(board, True, 10), (6, 110))
 
 
