@@ -7,6 +7,8 @@ from ttt import convert_board_to_num
 from ttt import minimax
 from ttt import eligible_moves
 from ttt import draw_board
+from ttt import choose_position
+from unittest import mock
 from unittest.mock import patch
 import io
 
@@ -18,6 +20,48 @@ class TestDrawBoard(unittest.TestCase):
         board = [['X', 'X', 'X'], [4, 5, 6], [7, 8, 9]]
         draw_board(board)
         assert mock_stdout.getvalue() == " X | X | X\n- - - - -\n 4 | 5 | 6\n- - - - -\n 7 | 8 | 9\n"
+
+
+class TestChoosePosition(unittest.TestCase):
+
+    def test_choose_position_ai(self):
+
+        board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 9]]
+        choose_position(board, False)
+        self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']])
+
+    def test_choose_position_human(self):
+        board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 9]]
+        original_input = mock.builtins.input
+        choose_position(board, True)
+        mock.builtins.input = lambda _: "9"
+        self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'X']])
+        mock.builtins.input = original_input
+
+
+# def choose_position(board_map, human_turn):
+#     '''choose a position on the board either by human input or AI'''
+#     if human_turn:
+#         valid = False
+#         while not valid:
+#             position_raw = input("\nEnter position number: ")
+#             try:
+#                 position = int(position_raw)
+#                 if position in eligible_moves(board_map):
+#                     (row, col) = convert_num_to_board(position)
+#                     set_position(board_map, row, col, True)
+#                     valid = True
+#                 else:
+#                     print("That position is taken!")
+#             except Exception:
+#                 print("That was not an integer!")
+
+#     else:
+#         (position, value) = minimax(board_map, True, 10)  # don't need value
+#         (row, col) = convert_num_to_board(position)
+#         set_position(board_map, row, col, False)
+
+#     return
 
 
 class TestCheckRows(unittest.TestCase):
