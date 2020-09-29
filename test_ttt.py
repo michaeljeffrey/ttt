@@ -8,7 +8,6 @@ from ttt import minimax
 from ttt import eligible_moves
 from ttt import draw_board
 from ttt import choose_position
-from unittest import mock
 from unittest.mock import patch
 import io
 
@@ -25,43 +24,21 @@ class TestDrawBoard(unittest.TestCase):
 class TestChoosePosition(unittest.TestCase):
 
     def test_choose_position_ai(self):
-
         board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 9]]
         choose_position(board, False)
         self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']])
 
-    def test_choose_position_human(self):
+    @patch('builtins.input', return_value='9')
+    def test_choose_position_human_good(self, mock_input):
         board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 9]]
-        original_input = mock.builtins.input
         choose_position(board, True)
-        mock.builtins.input = lambda _: "9"
         self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'X']])
-        mock.builtins.input = original_input
 
-
-# def choose_position(board_map, human_turn):
-#     '''choose a position on the board either by human input or AI'''
-#     if human_turn:
-#         valid = False
-#         while not valid:
-#             position_raw = input("\nEnter position number: ")
-#             try:
-#                 position = int(position_raw)
-#                 if position in eligible_moves(board_map):
-#                     (row, col) = convert_num_to_board(position)
-#                     set_position(board_map, row, col, True)
-#                     valid = True
-#                 else:
-#                     print("That position is taken!")
-#             except Exception:
-#                 print("That was not an integer!")
-
-#     else:
-#         (position, value) = minimax(board_map, True, 10)  # don't need value
-#         (row, col) = convert_num_to_board(position)
-#         set_position(board_map, row, col, False)
-
-#     return
+    # @patch('builtins.input', return_value='9')
+    # def test_choose_position_human_taken(self, mock_input):
+    #     board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']]
+    #     choose_position(board, True)
+    #     self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']])
 
 
 class TestCheckRows(unittest.TestCase):
