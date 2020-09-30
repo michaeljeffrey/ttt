@@ -34,11 +34,12 @@ class TestChoosePosition(unittest.TestCase):
         choose_position(board, True)
         self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'X']])
 
-    # @patch('builtins.input', return_value='9')
-    # def test_choose_position_human_taken(self, mock_input):
-    #     board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']]
-    #     choose_position(board, True)
-    #     self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']])
+    @patch('builtins.input', side_effect=['9', 'X', '8'])
+    def test_choose_position_human_taken(self, mock_input):
+        print(input)
+        board = [['O', 2, 'X'], [4, 5, 'X'], [7, 8, 'O']]
+        choose_position(board, True)
+        self.assertEqual(board, [['O', 2, 'X'], [4, 5, 'X'], [7, 'X', 'O']])
 
 
 class TestCheckRows(unittest.TestCase):
