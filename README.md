@@ -1,6 +1,4 @@
 # ttt
 tic tac toe
 
-Basic Tic Tac Toe game using Minimax algorythm.
-
-Human goes first and is 'X'.  AI is 'O'.
+_This is a work in progress and not for consumption yet_
